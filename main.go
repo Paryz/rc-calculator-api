@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -25,6 +26,7 @@ func main() {
 				"message": "pong",
 			})
 		})
+		api.GET("/dupa", RenderPdf)
 		api.POST("/renderpdf", RenderPdfFromLatex)
 	}
 
@@ -39,6 +41,17 @@ func RenderPdfFromLatex(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	var pdf, err = RenderUsingGotex()
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "gotex error"})
+		return
+	}
+	c.Header("Content-Type", "application/pdf")
+	c.Writer.Write(pdf)
+}
+
+func RenderPdf(c *gin.Context) {
 	var pdf, err = RenderUsingGotex()
 
 	if err != nil {
