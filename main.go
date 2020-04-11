@@ -1,14 +1,21 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"log"
+	"net/http"
+	"os"
 )
 
 func main() {
 	// Set the router as the default one shipped with Gin
 	router := gin.Default()
+
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
 
 	// Setup route group for the API
 	api := router.Group("/api")
@@ -21,7 +28,7 @@ func main() {
 		api.POST("/renderpdf", RenderPdfFromLatex)
 	}
 
-	router.Run(":3000")
+	router.Run(":" + port)
 }
 
 // RenderPdfFromLatex is self explanatory
