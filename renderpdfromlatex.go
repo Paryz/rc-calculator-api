@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/rwestlund/gotex"
 	"os"
 )
@@ -8,12 +9,13 @@ import (
 func RenderUsingGotex() ([]byte, error) {
 
 	url := os.Getenv("TEXLIVE_ADDRESS")
-	var document = `
+	test := "DUPA"
+	var document = fmt.Sprintf(`
         \documentclass[12pt]{article}
         \begin{document}
-        This is a LaTeX document.
+        This is a %s document.
         \end{document}
-        `
+        `, test)
 	return gotex.Render(document, gotex.Options{
 		Command:   url,
 		Runs:      1,
