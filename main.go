@@ -35,7 +35,7 @@ func RenderPdfFromLatex(c *gin.Context) {
 	var pdf, err = RenderUsingGotex()
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "gotex error"})
 		return
 	}
 	c.Header("Content-Type", "application/pdf")
