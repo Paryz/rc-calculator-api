@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/Paryz/rc-calculator-api/controllers"
 	"github.com/gin-gonic/gin"
 )
 
@@ -26,38 +27,10 @@ func main() {
 				"message": "pong",
 			})
 		})
-		api.GET("/dupa", RenderPdf)
-		api.POST("/renderpdf", RenderPdfFromLatex)
+		api.GET("/dupa", controllers.RenderPdf)
+		api.GET("/dupa/:test", controllers.RenderPdf)
+		api.POST("/renderpdf", controllers.RenderPdfFromLatex)
 	}
 
 	router.Run(":" + port)
-}
-
-// RenderPdfFromLatex is self explanatory
-func RenderPdfFromLatex(c *gin.Context) {
-	var beam RcBeam
-
-	if err := c.ShouldBindJSON(&beam); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	var pdf, err = RenderUsingGotex()
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "gotex error"})
-		return
-	}
-	c.Header("Content-Type", "application/pdf")
-	c.Writer.Write(pdf)
-}
-
-func RenderPdf(c *gin.Context) {
-	var pdf, err = RenderUsingGotex()
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "gotex error"})
-		return
-	}
-	c.Header("Content-Type", "application/pdf")
-	c.Writer.Write(pdf)
 }

@@ -1,4 +1,4 @@
-package main
+package types
 
 // RcBeam type is a beam representation
 type RcBeam struct {

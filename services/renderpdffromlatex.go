@@ -1,21 +1,24 @@
-package main
+package services
 
 import (
 	"fmt"
-	"github.com/rwestlund/gotex"
 	"os"
+
+	"github.com/rwestlund/gotex"
 )
 
-func RenderUsingGotex() ([]byte, error) {
+func RenderUsingGotex(param string) ([]byte, error) {
 
 	url := os.Getenv("TEXLIVE_ADDRESS")
-	test := "DUPA"
+	if param == "" {
+		param = "DUPA"
+	}
 	var document = fmt.Sprintf(`
         \documentclass[12pt]{article}
         \begin{document}
         This is a %s document.
         \end{document}
-        `, test)
+        `, param)
 	return gotex.Render(document, gotex.Options{
 		Command:   url,
 		Runs:      1,

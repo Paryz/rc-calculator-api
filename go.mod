@@ -1,4 +1,4 @@
-module github.com/rc-calculator-api
+module github.com/Paryz/rc-calculator-api
 
 go 1.14
 
