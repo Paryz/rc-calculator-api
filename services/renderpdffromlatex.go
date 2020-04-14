@@ -5,13 +5,21 @@ import (
 
 	"github.com/Paryz/rc-calculator-api/templates"
 	"github.com/Paryz/rc-calculator-api/types"
+	"github.com/gin-gonic/gin"
 	"github.com/rwestlund/gotex"
 )
 
-func RenderUsingGotex(beam types.RcBeam) ([]byte, error) {
+func RenderUsingGotex(c *gin.Context) ([]byte, error) {
+	var beam types.RcBeam
+
+	if err := c.ShouldBindQuery(&beam); err != nil {
+		return []byte(""), err
+	}
 
 	url := os.Getenv("TEXLIVE_ADDRESS")
+
 	document := templates.FetchTemplate(beam)
+
 	return gotex.Render(document, gotex.Options{
 		Command:   url,
 		Runs:      1,
