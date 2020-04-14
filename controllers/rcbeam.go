@@ -12,29 +12,11 @@ import (
 func RenderPdfFromLatex(c *gin.Context) {
 	var beam types.RcBeam
 
-	if err := c.ShouldBindJSON(&beam); err != nil {
+	if err := c.ShouldBindQuery(&beam); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	var pdf, err = services.RenderUsingGotex("")
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "gotex error"})
-		return
-	}
-	c.Header("Content-Type", "application/pdf")
-	c.Writer.Write(pdf)
-}
-
-// RenderPdf is self explanatory
-func RenderPdf(c *gin.Context) {
-	var pdf []byte
-	var err error
-	if test := c.Param("test"); test == "" {
-		pdf, err = services.RenderUsingGotex("")
-	} else {
-		pdf, err = services.RenderUsingGotex(test)
-	}
+	pdf, err := services.RenderUsingGotex(beam)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "gotex error"})

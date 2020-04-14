@@ -19,18 +19,21 @@ func main() {
 		log.Fatal("$PORT must be set")
 	}
 
+	router.GET("/", hello)
+
 	// Setup route group for the API
 	api := router.Group("/api")
 	{
-		api.GET("/", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{
-				"message": "pong",
-			})
-		})
-		api.GET("/dupa", controllers.RenderPdf)
-		api.GET("/dupa/:test", controllers.RenderPdf)
-		api.POST("/renderpdf", controllers.RenderPdfFromLatex)
+		api.GET("/", pong)
+		api.GET("/renderpdf", controllers.RenderPdfFromLatex)
 	}
 
 	router.Run(":" + port)
+}
+
+func hello(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"hello": "world"})
+}
+func pong(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"message": "pong"})
 }

@@ -1,31 +1,31 @@
 package types
 
-// RcBeam type is a beam representation
+// RcBeam is a beam struct for latex template
 type RcBeam struct {
-	Height                   string `json:"height" binding:"required"`
-	Width                    string `json:"width" binding:"required"`
-	Cover                    string `json:"cover" binding:"required"`
-	TopCover                 string `json:"topCover" binding:"required"`
-	ConcreteClass            string `json:"concreteClass" binding:"required"`
-	SteelClass               string `json:"steelClass" binding:"required"`
-	ConcreteFactor           string `json:"concreteFactor" binding:"required"`
-	SteelFactor              string `json:"steelFactor" binding:"required"`
-	AlphaCC                  string `json:"alphaCC" binding:"required"`
-	LinkDiameter             string `json:"linkDiameter" binding:"required"`
-	MainBarDiameter          string `json:"mainBarDiameter" binding:"required"`
-	BendingMoment            string `json:"bendingMoment" binding:"required"`
-	Fcd                      string `json:"fcd" binding:"required"`
-	Fctm                     string `json:"fctm" binding:"required"`
-	Fyd                      string `json:"fyd" binding:"required"`
-	EffectiveHeight          string `json:"effectiveHeight" binding:"required"`
-	MinReinforcement         string `json:"minReinforcement" binding:"required"`
-	Sc                       string `json:"sC" binding:"required"`
-	KsiEffective             string `json:"ksiEffective" binding:"required"`
-	KsiEffectiveLim          string `json:"ksiEffectiveLim" binding:"required"`
-	BottomReinforcementPrime string `json:"bottomReinforcementPrime" binding:"required"`
-	BendingMomentPrime       string `json:"bendingMomentPrime" binding:"required"`
-	BendingMomentDelta       string `json:"bendingMomentDelta" binding:"required"`
-	TopReqReinforcement      string `json:"topReqReinforcement" binding:"required"`
-	BottomReqReinforcement   string `json:"bottomReqReinforcement" binding:"required"`
-	MaximumReinforcement     string `json:"maximumReinforcement" binding:"required"`
+	Height                   string `form:"height" binding:"required"`
+	Width                    string `form:"width" binding:"required"`
+	Cover                    string `form:"cover" binding:"required"`
+	TopCover                 string `form:"topCover" binding:"required"`
+	ConcreteClass            string `form:"concreteClass" binding:"required"`
+	SteelClass               string `form:"steelClass" binding:"required"`
+	ConcreteFactor           string `form:"concreteFactor" binding:"required"`
+	SteelFactor              string `form:"steelFactor" binding:"required"`
+	AlphaCC                  string `form:"alphaCC" binding:"required"`
+	LinkDiameter             string `form:"linkDiameter" binding:"required"`
+	MainBarDiameter          string `form:"mainBarDiameter" binding:"required"`
+	BendingMoment            string `form:"bendingMoment" binding:"required"`
+	Fcd                      string `form:"fcd" binding:"required"`
+	Fctm                     string `form:"fctm" binding:"required"`
+	Fyd                      string `form:"fyd" binding:"required"`
+	EffectiveHeight          string `form:"effectiveHeight" binding:"required"`
+	MinReinforcement         string `form:"minReinforcement" binding:"required"`
+	Sc                       string `form:"sC" binding:"required"`
+	KsiEffective             string `form:"ksiEffective" binding:"required"`
+	KsiEffectiveLim          string `form:"ksiEffectiveLim" binding:"required"`
+	BottomReinforcementPrime string `form:"bottomReinforcementPrime" binding:"required"`
+	BendingMomentPrime       string `form:"bendingMomentPrime" binding:"required"`
+	BendingMomentDelta       string `form:"bendingMomentDelta" binding:"required"`
+	TopReqReinforcement      string `form:"topReqReinforcement" binding:"required"`
+	BottomReqReinforcement   string `form:"bottomReqReinforcement" binding:"required"`
+	MaximumReinforcement     string `form:"maximumReinforcement" binding:"required"`
 }

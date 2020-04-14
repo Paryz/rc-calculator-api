@@ -1,24 +1,17 @@
 package services
 
 import (
-	"fmt"
 	"os"
 
+	"github.com/Paryz/rc-calculator-api/templates"
+	"github.com/Paryz/rc-calculator-api/types"
 	"github.com/rwestlund/gotex"
 )
 
-func RenderUsingGotex(param string) ([]byte, error) {
+func RenderUsingGotex(beam types.RcBeam) ([]byte, error) {
 
 	url := os.Getenv("TEXLIVE_ADDRESS")
-	if param == "" {
-		param = "DUPA"
-	}
-	var document = fmt.Sprintf(`
-        \documentclass[12pt]{article}
-        \begin{document}
-        This is a %s document.
-        \end{document}
-        `, param)
+	document := templates.FetchTemplate(beam)
 	return gotex.Render(document, gotex.Options{
 		Command:   url,
 		Runs:      1,
