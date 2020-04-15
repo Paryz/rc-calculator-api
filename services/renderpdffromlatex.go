@@ -9,6 +9,8 @@ import (
 	"github.com/rwestlund/gotex"
 )
 
+// RenderUsingGotex is a service that validates the query params,
+// generates template and render pdf using gotex
 func RenderUsingGotex(c *gin.Context) ([]byte, error) {
 	var beam types.RcBeam
 
@@ -16,7 +18,7 @@ func RenderUsingGotex(c *gin.Context) ([]byte, error) {
 		return []byte(""), err
 	}
 
-	document := templates.FetchTemplate(beam)
+	document := templates.GenerateTemplate(beam)
 
 	url := os.Getenv("TEXLIVE_ADDRESS")
 
