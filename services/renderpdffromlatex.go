@@ -16,12 +16,14 @@ func RenderUsingGotex(c *gin.Context) ([]byte, error) {
 		return []byte(""), err
 	}
 
-	url := os.Getenv("TEXLIVE_ADDRESS")
-
 	document := templates.FetchTemplate(beam)
 
-	return gotex.Render(document, gotex.Options{
+	url := os.Getenv("TEXLIVE_ADDRESS")
+
+	options := gotex.Options{
 		Command:   url,
 		Runs:      1,
-		Texinputs: "/my/asset/dir:/my/other/asset/dir"})
+		Texinputs: "/my/asset/dir:/my/other/asset/dir"}
+
+	return gotex.Render(document, options)
 }
