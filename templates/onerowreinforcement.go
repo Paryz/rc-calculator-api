@@ -7,54 +7,128 @@ import (
 
 // GenerateTemplate generates template for calculations of one row reinforcement
 func GenerateTemplate(beam types.RcBeam) string {
-	return fmt.Sprintf(`
+	return fmt.Sprint(`
 		\documentclass[12pt]{article}
 		\usepackage{amsmath}
 		\newcommand\fixedalign{\hspace{0.3\linewidth} &
                        \hspace{0.7\linewidth} \nonumber \\[-\baselineskip]}
 		\begin{document}
+		`,
+		sectionDetails(beam),
+		concreteDetails(beam),
+		steelDetails(beam),
+		minimumReinforcement(beam),
+		requredReinforcement(beam),
+	)
+}
+
+func sectionDetails(beam types.RcBeam) string {
+	return fmt.Sprintf(`
 		\section{RC Section Details}
 		\begin{align*}\fixedalign
-		h &= %smm\\
-		b &= %smm \\
-		c_{nom} &= 30mm \\
-		\phi &= 25mm \\
-		\phi_{S} &= 10mm \\
-		M_{Ed} &= 200kNm
+		h &= %.1fmm\\
+		b &= %.1fmm \\
+		c_{nom} &= %.1fmm \\
+		\phi &= %.1fmm \\
+		\phi_{S} &= %.1fmm \\
+		M_{Ed} &= %.1fkNm
 		\end{align*}
+		`,
+		beam.Height,
+		beam.Width,
+		beam.Cover,
+		beam.MainBarDiameter,
+		beam.LinkDiameter,
+		beam.BendingMoment,
+	)
+}
+
+func concreteDetails(beam types.RcBeam) string {
+	return fmt.Sprintf(`
 		\section{Concrete Details}
 		\begin{align*}\fixedalign
-		f_{ck} &= 30MPa \\
-		\gamma_C &= 1.4 \\
-		\alpha_{cc} &= 1.0 \\
-		f_{cd} &= 17.46MPa \\
-		f_{ctm} &= 1.7MPa
+		f_{ck} &= %.2fMPa \\
+		\gamma_C &= %.2f \\
+		\alpha_{cc} &= %.1f \\
+		f_{cd} &= %.2fMPa \\
+		f_{ctm} &= %.2fMPa
 		\end{align*}
+		`,
+		beam.ConcreteClass,
+		beam.ConcreteFactor,
+		beam.AlphaCC,
+		beam.Fcd,
+		beam.Fctm,
+	)
+}
+
+func steelDetails(beam types.RcBeam) string {
+	return fmt.Sprintf(`
 		\section{Steel Details}
 		\begin{align*}\fixedalign
-		f_{yk} &= 500MPa \\
-		\gamma_S &= 1.15 \\
-		f_{yd} &= 434.70MPa
+		f_{yk} &= %.1fMPa \\
+		\gamma_S &= %.2f \\
+		f_{yd} &= %.2fMPa
 		\end{align*}
+	`,
+		beam.SteelClass,
+		beam.SteelFactor,
+		beam.Fyd,
+	)
+}
+
+func minimumReinforcement(beam types.RcBeam) string {
+	return fmt.Sprintf(`
 		\section{Minimum Reinforcement}
 		\begin{align*}\fixedalign
-		d &= 550mm \\
-		A_{s,min,1} &= 100mm^2 \\
-		A_{s,min,2} &= 150mm^2 \\
-		A_{s,min} &= 100mm^2
+		d &= %.1fmm \\
+		A_{s,min,1} &= %.1fmm^2 \\
+		A_{s,min,2} &= %.1fmm^2 \\
+		A_{s,min} &= %.1fmm^2
 		\end{align*}
+	`,
+		beam.EffectiveHeight,
+		minReinforcement1(beam),
+		minReinforcement2(beam),
+		beam.MinReinforcement,
+	)
+}
+
+func requredReinforcement(beam types.RcBeam) string {
+	return fmt.Sprintf(`
 		\section{Required Reinforcement}
 		\begin{align*}\fixedalign
 		\varepsilon_{cu2} &= 0.0035 \\
 		\varepsilon_{cu2} &= 0.0035 \\
 		E_{S} &= 200000 MPa \\
-		S_{C} &= 1.7 \\
-		\xi_{eff} &= 1.8 \\
-		\xi_{eff,lim} &= 0.90 \\
-		A_{s,b} &= 1000mm^2 \\
+		S_{C} &= %.1f \\
+		\xi_{eff} &= %.2f \\
+		\xi_{eff,lim} &= %.2f \\
+		A_{s,b} &= %.1fmm^2 \\
 		A_{s,b} &> A_{s,min} \\
-		A_{s,req} &= 1500mm^2
+		A_{s,req} &= %.1fmm^2
 		\end{align*}
 		\end{document}
-		`, beam.Height, beam.Width)
+	`,
+		beam.Sc,
+		beam.KsiEffective,
+		beam.KsiEffectiveLim,
+		beam.BottomReqReinforcement,
+		beam.BottomReqReinforcement,
+	)
+}
+
+func minReinforcement1(beam types.RcBeam) float64 {
+	fctm := beam.Fctm
+	steelClass := beam.SteelClass
+	width := beam.Width
+	effectiveHeight := beam.EffectiveHeight
+
+	return 0.26 * (fctm / steelClass) * width * effectiveHeight
+}
+
+func minReinforcement2(beam types.RcBeam) float64 {
+	width := beam.Width
+	effectiveHeight := beam.EffectiveHeight
+	return 0.0013 * width * effectiveHeight
 }
