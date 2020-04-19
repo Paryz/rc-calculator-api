@@ -123,7 +123,6 @@ func minReinforcement1(beam types.RcBeam) float64 {
 	steelClass := beam.SteelClass
 	width := beam.Width
 	effectiveHeight := beam.EffectiveHeight
-
 	return 0.26 * (fctm / steelClass) * width * effectiveHeight
 }
 
