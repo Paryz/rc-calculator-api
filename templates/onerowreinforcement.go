@@ -113,8 +113,8 @@ func requredReinforcement(beam types.RcBeam) string {
 		beam.Sc,
 		beam.KsiEffective,
 		beam.KsiEffectiveLim,
-		beam.BottomReqReinforcement,
-		beam.BottomReqReinforcement,
+		*beam.BottomReqReinforcement,
+		*beam.BottomReqReinforcement,
 	)
 }
 
